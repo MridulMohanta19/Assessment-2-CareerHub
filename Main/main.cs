@@ -62,8 +62,22 @@ public class MainModule
     {
         try
         {
-            Console.WriteLine("Enter Company ID: ");
-            int companyID = Convert.ToInt32(Console.ReadLine());
+            // Create or retrieve Company
+            Console.WriteLine("Enter Company Name: ");
+            string companyName = Console.ReadLine();
+
+            Console.WriteLine("Enter Company Location: ");
+            string companyLocation = Console.ReadLine();
+
+            // Create a new Company object
+            Company company = new Company
+            {
+                CompanyName = companyName,
+                Location = companyLocation
+            };
+
+            // Insert the company into the database
+            dbManager.InsertCompany(company);
 
             Console.WriteLine("Enter Job Title: ");
             string jobTitle = Console.ReadLine();
@@ -82,7 +96,7 @@ public class MainModule
 
             JobListing job = new JobListing
             {
-                CompanyID = companyID,
+                CompanyID = company.CompanyID, // Assuming CompanyID is set after inserting
                 JobTitle = jobTitle,
                 JobDescription = jobDescription,
                 JobLocation = jobLocation,
@@ -91,7 +105,7 @@ public class MainModule
                 PostedDate = DateTime.Now
             };
 
-            dbManager.InsertJobListing(job);
+            dbManager.InsertJobListing(job, company); // Pass both job and company
             Console.WriteLine($"Job '{jobTitle}' posted successfully!");
         }
         catch (InvalidDataException ex)

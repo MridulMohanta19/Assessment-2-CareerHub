@@ -12,15 +12,20 @@ public class DatabaseManager
     }
 
     // Insert a new Job Listing
-    public void InsertJobListing(JobListing job)
+    public void InsertJobListing(JobListing job, Company company)
     {
         try
         {
-            if (job.Salary < 0)
+            // Check if the company exists
+            int companyID = GetCompanyID(company.CompanyName);
+            if (companyID == 0)
             {
-                throw new InvalidDataException("Salary cannot be negative.");
+                // If the company does not exist, insert it
+                InsertCompany(company);
+                companyID = GetCompanyID(company.CompanyName); // Get the CompanyID after insertion
             }
 
+            // Now proceed with inserting the job listing
             using (var connection = new SqlConnection(connectionString))
             {
                 string query = "INSERT INTO Jobs (CompanyID, JobTitle, JobDescription, JobLocation, Salary, JobType, PostedDate) " +
@@ -28,7 +33,7 @@ public class DatabaseManager
 
                 using (var command = new SqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@CompanyID", job.CompanyID);
+                    command.Parameters.AddWithValue("@CompanyID", companyID);
                     command.Parameters.AddWithValue("@JobTitle", job.JobTitle);
                     command.Parameters.AddWithValue("@JobDescription", job.JobDescription);
                     command.Parameters.AddWithValue("@JobLocation", job.JobLocation);
@@ -51,6 +56,35 @@ public class DatabaseManager
             throw new DatabaseConnectionException($"Database connection error: {ex.Message}");
         }
     }
+
+    // Helper method to check if the company exists in the database
+    private int GetCompanyID(string companyName)
+    {
+        int companyID = 0;
+        try
+        {
+            using (var connection = new SqlConnection(connectionString))
+            {
+                string query = "SELECT CompanyID FROM Companies WHERE CompanyName = @CompanyName";
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@CompanyName", companyName);
+                    connection.Open();
+                    object result = command.ExecuteScalar();
+                    if (result != null)
+                    {
+                        companyID = Convert.ToInt32(result);
+                    }
+                }
+            }
+        }
+        catch (SqlException ex)
+        {
+            throw new DataRetrievalException($"Error retrieving company: {ex.Message}");
+        }
+        return companyID;
+    }
+
 
     // Insert a new Company
     public void InsertCompany(Company company)
