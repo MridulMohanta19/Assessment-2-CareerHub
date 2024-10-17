@@ -9,7 +9,7 @@
 
     private List<JobApplication> jobApplications = new List<JobApplication>();
 
-    // Method to create the applicant's profile
+    // create the applicant's profile
     public void CreateProfile(string email, string firstName, string lastName, string phone)
     {
         if (!IsValidEmail(email))
@@ -25,7 +25,7 @@
         Console.WriteLine($"Profile created for {firstName} {lastName}.");
     }
 
-    // Method to apply for a specific job
+    // apply for a specific job
     public void ApplyForJob(JobListing job, string coverLetter)
     {
         job.Apply(this.ApplicantID, coverLetter);
@@ -42,7 +42,7 @@
         Console.WriteLine($"{FirstName} {LastName} applied for job '{job.JobTitle}' with cover letter: {coverLetter}");
     }
 
-    // Helper method to validate email format
+    // validate email format
     private bool IsValidEmail(string email)
     {
         return email.Contains("@");  // Simplified email validation

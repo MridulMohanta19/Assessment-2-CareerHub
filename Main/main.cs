@@ -57,7 +57,7 @@ public class MainModule
         }
     }
 
-    // Method to post a job
+    // post a job
     public static void PostJob(DatabaseManager dbManager)
     {
         try

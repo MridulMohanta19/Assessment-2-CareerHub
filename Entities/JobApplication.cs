@@ -6,5 +6,4 @@
     public DateTime ApplicationDate { get; set; }
     public string CoverLetter { get; set; }
 
-    // You can add any specific logic for the application if needed, but right now it's just a data class.
 }

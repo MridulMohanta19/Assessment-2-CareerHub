@@ -6,7 +6,7 @@
 
     private List<JobListing> jobListings = new List<JobListing>();
 
-    // Method to post a job
+    // post a job
     public void PostJob(string jobTitle, string jobDescription, string jobLocation, decimal salary, string jobType)
     {
         var job = new JobListing
@@ -25,7 +25,7 @@
         Console.WriteLine($"Job '{jobTitle}' posted by {CompanyName}.");
     }
 
-    // Method to retrieve all jobs posted by the company
+    //retrieve all jobs posted by the company
     public List<JobListing> GetJobs()
     {
         return jobListings;

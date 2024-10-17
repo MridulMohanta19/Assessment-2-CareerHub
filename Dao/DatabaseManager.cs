@@ -11,7 +11,7 @@ public class DatabaseManager
         this.connectionString = connectionString;
     }
 
-    // Insert a new Job Listing
+    //new Job Listing
     public void InsertJobListing(JobListing job, Company company)
     {
         try
@@ -20,12 +20,9 @@ public class DatabaseManager
             int companyID = GetCompanyID(company.CompanyName);
             if (companyID == 0)
             {
-                // If the company does not exist, insert it
                 InsertCompany(company);
                 companyID = GetCompanyID(company.CompanyName); // Get the CompanyID after insertion
             }
-
-            // Now proceed with inserting the job listing
             using (var connection = new SqlConnection(connectionString))
             {
                 string query = "INSERT INTO Jobs (CompanyID, JobTitle, JobDescription, JobLocation, Salary, JobType, PostedDate) " +
@@ -56,7 +53,6 @@ public class DatabaseManager
             throw new DatabaseConnectionException($"Database connection error: {ex.Message}");
         }
     }
-
     // Helper method to check if the company exists in the database
     private int GetCompanyID(string companyName)
     {
@@ -84,9 +80,7 @@ public class DatabaseManager
         }
         return companyID;
     }
-
-
-    // Insert a new Company
+    // new Company
     public void InsertCompany(Company company)
     {
         try
@@ -116,7 +110,7 @@ public class DatabaseManager
         }
     }
 
-    // Insert a new Applicant
+    //new Applicant
     public void InsertApplicant(Applicant applicant)
     {
         try
@@ -155,7 +149,7 @@ public class DatabaseManager
         }
     }
 
-    // Insert a new Job Application
+    //new Job Application
     public void InsertJobApplication(JobApplication application, DateTime applicationDeadline)
     {
         try
@@ -193,7 +187,7 @@ public class DatabaseManager
         }
     }
 
-    // Retrieve all Job Listings
+    //all Job Listings
     public List<JobListing> GetJobListings()
     {
         var jobListings = new List<JobListing>();
@@ -239,7 +233,7 @@ public class DatabaseManager
         return jobListings;
     }
 
-    // Retrieve all Companies
+    //all Companies
     public List<Company> GetCompanies()
     {
         var companies = new List<Company>();
@@ -280,7 +274,7 @@ public class DatabaseManager
         return companies;
     }
 
-    // Retrieve all Applicants
+    //all Applicants
     public List<Applicant> GetApplicants()
     {
         var applicants = new List<Applicant>();
@@ -324,7 +318,7 @@ public class DatabaseManager
         return applicants;
     }
 
-    // Method to validate email format
+    //validate email format
     private bool IsValidEmail(string email)
     {
         return email.Contains("@"); // Simplified validation for demonstration

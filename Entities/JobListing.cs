@@ -11,7 +11,7 @@
 
     private List<JobApplication> applications = new List<JobApplication>();
 
-    // Method to apply for a job
+    // apply for a job
     public void Apply(int applicantID, string coverLetter)
     {
         var application = new JobApplication
@@ -26,7 +26,7 @@
         Console.WriteLine($"Applicant {applicantID} applied for Job {JobID}.");
     }
 
-    // Method to get a list of applicants who applied for this job
+    // list of applicants who applied 
     public List<JobApplication> GetApplicants()
     {
         return applications;
